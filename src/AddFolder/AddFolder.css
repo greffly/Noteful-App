@@ -1,0 +1,13 @@
+.addFolder {
+  color: whitesmoke;
+  margin-left: 10px;
+}
+
+input {
+  padding: 4px;
+}
+
+button {
+  margin: 10px;
+  padding: 5px;
+}
