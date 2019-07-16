@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NoteListNav from '../NoteListNav/NoteListNav';
 import NotePageNav from '../NotePageNav/NotePageNav';
 import NoteListMain from '../NoteListMain/NoteListMain';
@@ -22,11 +21,24 @@ class App extends Component {
     setTimeout(() => this.setState(dummyStore), 600);
   }
 
+  addFolder = folderName => {
+    // update the state's folders array by adding foldername to it.
+    this.setState({
+      folders: [...this.state.folders, folderName]
+    });
+  };
+  addNote = noteName => {
+    // update the state's notes array by adding foldername to it.
+    this.setState({
+      notes: [...this.state.notes, noteName]
+    });
+  };
+
   renderNavRoutes() {
     const { notes, folders } = this.state;
     return (
       <>
-        {['/', '/folder/:folderId'].map(path => (
+        {['/', '/folder/:folderId', '/add-folder', '/add-note'].map(path => (
           <Route
             exact
             key={path}
@@ -45,8 +57,6 @@ class App extends Component {
             return <NotePageNav {...routeProps} folder={folder} />;
           }}
         />
-        <Route path='/add-folder' component={NotePageNav} />
-        <Route path='/add-note' component={NotePageNav} />
       </>
     );
   }
@@ -75,8 +85,18 @@ class App extends Component {
             return <NotePageMain {...routeProps} note={note} />;
           }}
         />
-        <Route path='/add-folder' component={AddFolder} />
-        <Route path='/add-note' component={AddNote} />
+        <Route
+          path='/add-folder'
+          render={routeProps => (
+            <AddFolder addFolder={this.addFolder} {...routeProps} />
+          )}
+        />
+        <Route
+          path='/add-note'
+          render={routeProps => (
+            <AddNote addNote={this.addNote} {...routeProps} />
+          )}
+        />
       </>
     );
   }
@@ -87,7 +107,7 @@ class App extends Component {
         <nav className='App__nav'>{this.renderNavRoutes()}</nav>
         <header className='App__header'>
           <h1>
-            <Link to='/'>Noteful</Link> <FontAwesomeIcon icon='check-double' />
+            <Link to='/'>Noteful</Link>
           </h1>
         </header>
         <main className='App__main'>{this.renderMainRoutes()}</main>
