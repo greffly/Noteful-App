@@ -94,7 +94,11 @@ class App extends Component {
         <Route
           path='/add-note'
           render={routeProps => (
-            <AddNote addNote={this.addNote} {...routeProps} />
+            <AddNote
+              addNote={this.addNote}
+              {...routeProps}
+              folders={dummyStore.folders}
+            />
           )}
         />
       </>
